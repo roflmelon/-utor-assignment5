@@ -5,6 +5,8 @@ setInterval(() => {
 
 //variables
 const workHours = 8;
+let textInput = [];
+let currentTime = moment().format('H');
 
 // get all the necessary elements and populate all the rows
 for (let i = 0; i <= workHours; i++) {
@@ -32,13 +34,29 @@ for (let i = 0; i <= workHours; i++) {
   textArea.addClass('col-8 custom-textArea');
   saveButton.addClass('col-2 custom-saveButton');
 }
-if (moment().format('H') > 17) {
+if (currentTime > 17) {
   $('.custom-textArea').css('background-color', 'grey');
   $('.custom-textArea').prop('disabled', true);
-} else if (moment().format('H') >= 0 && moment().format('H') < 17) {
-  let hoursLeft = 17 - moment().format('H');
-  if (hoursLeft) {
-    $('.custom-textArea').css('background-color', 'lightblue');
+} else if (currentTime >= 0 && currentTime < 17) {
+  let hoursPast = currentTime - 9;
+
+  $('.custom-textArea').css('background-color', 'lightblue');
+  if (hoursPast >= 0) {
+    let currentHour = $('div.custom-blockContainer textarea').eq(
+      currentTime - 9
+    );
+
+    for (let i = 0; i < hoursPast; i++) {
+      let blockContainer = $('div.custom-blockContainer textarea').eq(i);
+      blockContainer.prop('disabled', true);
+      blockContainer.css('background-color', 'grey');
+    }
+    currentHour.prop('disabled', false);
+    currentHour.css('background-color', 'orange');
   }
-  let listOfHours = $('div.custom-blockContainer div');
 }
+console.log(moment().format('H'));
+function saveSchedule() {
+  console.log('save');
+}
+$('.custom-saveButton').on('click', saveSchedule);
