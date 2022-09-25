@@ -63,37 +63,44 @@ if (currentTime >= 18) {
 function renderSchedule() {
   let workSchedule = JSON.parse(localStorage.getItem('schedules'));
   let textInput = $('div.custom-blockContainer textarea');
-  for (let i = 0; i < workSchedule.length; i++) {
-    let workTime = workSchedule[i].time;
-    console.log(textInput.eq(workTime).value);
-    textInput.eq(workTime).val(workSchedule[i].text);
+  if (workSchedule !== null) {
+    for (let i = 0; i < workSchedule.length; i++) {
+      let workTime = workSchedule[i].time;
+      textInput.eq(workTime).val(workSchedule[i].text);
+    }
   }
 }
 function saveSchedule(event) {
   let workSchedule = JSON.parse(localStorage.getItem('schedules'));
   let saveBtnIndex = event.target.getAttribute('data-index');
   let textInput = $('div.custom-blockContainer textarea');
-  let text = textInput.eq(saveBtnIndex).val().trim();
-  let scheduleIndex = workSchedule.findIndex((element) => {
-    return element.time === saveBtnIndex;
-  });
+  let text = textInput.eq(saveBtnIndex).val();
 
-  console.log(scheduleIndex);
   if (text !== '') {
     if (workSchedule === null || workSchedule === undefined) {
       let input = { time: saveBtnIndex, text: text };
       let schedules = [];
       schedules.push(input);
       localStorage.setItem('schedules', JSON.stringify(schedules));
-    } else if (scheduleIndex !== -1) {
-      workSchedule[scheduleIndex].text = text;
-      localStorage.setItem('schedules', JSON.stringify(workSchedule));
-    } else if (scheduleIndex === -1) {
-      let workSchedule = JSON.parse(localStorage.getItem('schedules'));
-      let input = { time: saveBtnIndex, text: text };
-      workSchedule.push(input);
-      localStorage.setItem('schedules', JSON.stringify(workSchedule));
+      textInput.eq(saveBtnIndex).css('background-color', 'lightgreen');
+    } else {
+      let scheduleIndex = workSchedule.findIndex((element) => {
+        return element.time === saveBtnIndex;
+      });
+      if (scheduleIndex !== -1) {
+        workSchedule[scheduleIndex].text = text;
+        localStorage.setItem('schedules', JSON.stringify(workSchedule));
+        textInput.eq(saveBtnIndex).css('background-color', 'lightgreen');
+      } else if (scheduleIndex === -1) {
+        let workSchedule = JSON.parse(localStorage.getItem('schedules'));
+        let input = { time: saveBtnIndex, text: text };
+        workSchedule.push(input);
+        localStorage.setItem('schedules', JSON.stringify(workSchedule));
+        textInput.eq(saveBtnIndex).css('background-color', 'lightgreen');
+      }
     }
+  } else if (text.trim() === '') {
+    textInput.eq(saveBtnIndex).css('background-color', 'lightblue');
   }
 }
 
