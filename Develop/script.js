@@ -5,8 +5,8 @@ setInterval(() => {
 
 //variables
 const workHours = 8;
-let currentTime = 9;
-// let currentTime = moment().format('H');
+//let currentTime = 9;
+let currentTime = moment().format('H');
 
 //selectors
 

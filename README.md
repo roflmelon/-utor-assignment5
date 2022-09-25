@@ -1,35 +1,38 @@
-# 03 JavaScript: Random Password Generator
+# Work day scheduler!!!
 
-## This is an assignment is made with JavaScript and Web-API ❤️.
+## This is an assignment is made with JavaScript, JQuery, BootStrap and ❤️.
 
-![me](./Assets/Screenshot_2.jpg)
+![me](./Assets/Screenshot_1.jpg)
 
 ## Description
 
 Github:
-https://github.com/roflmelon/utor-assignment4
+https://github.com/roflmelon/jquery-bootstrap-work-scheduler
 
-Live Link: https://roflmelon.github.io/utor-assignment4/
+Live Link: https://roflmelon.github.io/jquery-bootstrap-work-scheduler/
 
 ## Installation
 
-N/A
+None required.
 
 ## Usage
 
 ```
-Click start to begin the quiz.
-Answer the randomized questions.
-If answer is wrong, subtract 5 seconds from the clock.
-If answer is right, get the next question.
-Game is finished when clock runs down or all questions have been answered.
-After game is ends, players will input name to record their highscore in the localStorage.
-Then highscores will be shown and main menu button will appear to guide player back to the main screen.
+Current time will be shown in orange.
+Past time will be shown in grey.
+future available time will be in blue.
+
+Once the time passes the current hour. All time slots will be disabled and grey.
+
+To save a new schedule or task, simply type in task and save.
+Once that's done it will be shown in green.
+
+ENJOY!!!
 ```
 
 ## Contributing
 
-Hao Zhou and friends
+Hao Zhou
 
 ## License
 
