@@ -8,6 +8,8 @@ const workHours = 8;
 let currentTime = 9;
 // let currentTime = moment().format('H');
 
+//selectors
+
 // get all the necessary elements and populate all the rows
 for (let i = 0; i <= workHours; i++) {
   let mainContainer = $('.container');
@@ -61,6 +63,11 @@ if (currentTime >= 18) {
 function renderSchedule() {
   let workSchedule = JSON.parse(localStorage.getItem('schedules'));
   let textInput = $('div.custom-blockContainer textarea');
+  for (let i = 0; i < workSchedule.length; i++) {
+    let workTime = workSchedule[i].time;
+    console.log(textInput.eq(workTime).value);
+    textInput.eq(workTime).val(workSchedule[i].text);
+  }
 }
 function saveSchedule(event) {
   let workSchedule = JSON.parse(localStorage.getItem('schedules'));
@@ -81,27 +88,6 @@ function saveSchedule(event) {
     } else if (scheduleIndex !== -1) {
       workSchedule[scheduleIndex].text = text;
       localStorage.setItem('schedules', JSON.stringify(workSchedule));
-      //   schedule.text = text;
-      //   for (let i = 0; i < workSchedule.length; i++) {
-      //     console.log(saveBtnIndex);
-      //     console.log(workSchedule[i].time);
-      //     if (workSchedule[i].time === saveBtnIndex) {
-      //       workSchedule[i].text = text;
-      //       localStorage.setItem('schedules', JSON.stringify(workSchedule));
-      //       i = workSchedule.length;
-      //       console.log('replacing the old one');
-      //     } else if (workSchedule[i].time !== saveBtnIndex) {
-      //       let input = { time: saveBtnIndex, text: text };
-      //       workSchedule.push(input);
-      //       localStorage.setItem('schedules', JSON.stringify(workSchedule));
-      //       i = workSchedule.length;
-      //       console.log('adding new schedule');
-      //     }
-      //   }
-      //
-      //   let input = { time: saveBtnIndex, text: textInput };
-      //   let scheduleHour = schedule.findIndex(saveBtnIndex);
-      //   schedule.splice();
     } else if (scheduleIndex === -1) {
       let workSchedule = JSON.parse(localStorage.getItem('schedules'));
       let input = { time: saveBtnIndex, text: text };
@@ -112,3 +98,4 @@ function saveSchedule(event) {
 }
 
 $('.saveButton').on('click', saveSchedule);
+addEventListener('load', renderSchedule);
