@@ -5,8 +5,8 @@ setInterval(() => {
 
 //variables
 const workHours = 8;
-let textInput = [];
-let currentTime = moment().format('H');
+let currentTime = 9;
+// let currentTime = moment().format('H');
 
 // get all the necessary elements and populate all the rows
 for (let i = 0; i <= workHours; i++) {
@@ -28,16 +28,18 @@ for (let i = 0; i <= workHours; i++) {
   } else {
     dateArea.text(i + 9 - 12 + ':00 PM');
   }
-  saveButton.addClass('far fa-save bg-primary rounded-right rounded-lg');
+  saveButton.addClass(
+    'far fa-save bg-primary rounded-right rounded-lg col-2 saveButton'
+  );
+  saveButton.attr('data-index', i);
   blockContainer.addClass('row border custom-blockContainer');
   dateArea.addClass('col-2 text-center custom-dateArea');
   textArea.addClass('col-8 custom-textArea');
-  saveButton.addClass('col-2 custom-saveButton');
 }
-if (currentTime > 17) {
+if (currentTime >= 18) {
   $('.custom-textArea').css('background-color', 'grey');
   $('.custom-textArea').prop('disabled', true);
-} else if (currentTime >= 0 && currentTime < 17) {
+} else if (currentTime >= 0 && currentTime < 18) {
   let hoursPast = currentTime - 9;
 
   $('.custom-textArea').css('background-color', 'lightblue');
@@ -55,8 +57,58 @@ if (currentTime > 17) {
     currentHour.css('background-color', 'orange');
   }
 }
-console.log(moment().format('H'));
-function saveSchedule() {
-  console.log('save');
+
+function renderSchedule() {
+  let workSchedule = JSON.parse(localStorage.getItem('schedules'));
+  let textInput = $('div.custom-blockContainer textarea');
 }
-$('.custom-saveButton').on('click', saveSchedule);
+function saveSchedule(event) {
+  let workSchedule = JSON.parse(localStorage.getItem('schedules'));
+  let saveBtnIndex = event.target.getAttribute('data-index');
+  let textInput = $('div.custom-blockContainer textarea');
+  let text = textInput.eq(saveBtnIndex).val().trim();
+  let scheduleIndex = workSchedule.findIndex((element) => {
+    return element.time === saveBtnIndex;
+  });
+
+  console.log(scheduleIndex);
+  if (text !== '') {
+    if (workSchedule === null || workSchedule === undefined) {
+      let input = { time: saveBtnIndex, text: text };
+      let schedules = [];
+      schedules.push(input);
+      localStorage.setItem('schedules', JSON.stringify(schedules));
+    } else if (scheduleIndex !== -1) {
+      workSchedule[scheduleIndex].text = text;
+      localStorage.setItem('schedules', JSON.stringify(workSchedule));
+      //   schedule.text = text;
+      //   for (let i = 0; i < workSchedule.length; i++) {
+      //     console.log(saveBtnIndex);
+      //     console.log(workSchedule[i].time);
+      //     if (workSchedule[i].time === saveBtnIndex) {
+      //       workSchedule[i].text = text;
+      //       localStorage.setItem('schedules', JSON.stringify(workSchedule));
+      //       i = workSchedule.length;
+      //       console.log('replacing the old one');
+      //     } else if (workSchedule[i].time !== saveBtnIndex) {
+      //       let input = { time: saveBtnIndex, text: text };
+      //       workSchedule.push(input);
+      //       localStorage.setItem('schedules', JSON.stringify(workSchedule));
+      //       i = workSchedule.length;
+      //       console.log('adding new schedule');
+      //     }
+      //   }
+      //
+      //   let input = { time: saveBtnIndex, text: textInput };
+      //   let scheduleHour = schedule.findIndex(saveBtnIndex);
+      //   schedule.splice();
+    } else if (scheduleIndex === -1) {
+      let workSchedule = JSON.parse(localStorage.getItem('schedules'));
+      let input = { time: saveBtnIndex, text: text };
+      workSchedule.push(input);
+      localStorage.setItem('schedules', JSON.stringify(workSchedule));
+    }
+  }
+}
+
+$('.saveButton').on('click', saveSchedule);
